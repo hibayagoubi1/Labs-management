@@ -28,7 +28,7 @@ spring:
                - GET
                - POST
              allowedHeaders: '*'
-             maxAge: 30
+
 
  application:
    name: LabsManagement-gateway
