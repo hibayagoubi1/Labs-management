@@ -1,18 +1,18 @@
-pipeline {
-  agent {
-    docker {
-      image 'mcr.microsoft.com/dotnet/core/sdk:3.1' // Utilisation d'une image Docker compatible avec Windows
-      args '--user root' // Argument pour exécuter le conteneur avec des privilèges appropriés
-    }
-  }
-  stages {
-    stage('Checkout') {
-            steps {
-               
-            git credentialsId: 'github', url: 'https://github.com/hibayagoubi1/Labs-management.git', branch: 'main'
+ pipeline {
+    agent any
 
+    tools {
+        maven 'Maven-4.0.0'
+        jdk 'JDK17'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/hibayagoubi1/Labs-management.git'
             }
-        }   
+        }
+        
    stage('Build and Test') {
       steps {
                bat 'cd LabsManagement-Registry && mvn clean package'
