@@ -27,7 +27,7 @@
 }    
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "hibayaagoubi/registry-service:${BUILD_NUMBER}"
+        DOCKER_IMAGE = 'hibayaagoubi/registry-service:${BUILD_NUMBER}'
         REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
       steps {
