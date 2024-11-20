@@ -18,16 +18,13 @@
                bat 'cd LabsManagement-Registry && mvn clean package'
       }
     }
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = 'http://localhost:9000'
-      }
-      steps {
-        withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-          bat 'cd LabsManagement-Registry && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-        }
-      }
+         stage('Static Code Analysis') {
+  steps {
+    withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_TOKEN')]) {
+      bat "cd LabsManagement-Registry && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONAR_TOKEN}"
     }
+  }
+}    
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "hibayaagoubi/registry-service:${BUILD_NUMBER}"
