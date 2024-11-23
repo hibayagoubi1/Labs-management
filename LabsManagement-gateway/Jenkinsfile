@@ -6,6 +6,11 @@ pipeline {
         jdk 'JDK17'
     }
 
+    environment {
+        GIT_REPO_NAME = "Labs-management"
+        GIT_USER_NAME = "hibayagoubi1"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -22,7 +27,7 @@ pipeline {
         stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_TOKEN')]) {
-                    bat "cd LabsManagement-gateway && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONAR_TOKEN}"
+                    bat "cd LabsManagement-gateway && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
@@ -40,23 +45,31 @@ pipeline {
         }
 
         stage('Update Deployment File') {
-            environment {
-                GIT_REPO_NAME = "Labs-management"
-                GIT_USER_NAME = "hibayagoubi1"
-            }
             steps {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     bat '''
-                        git config user.email "hibayaagoubi4@gmail.com"
+                        git config user.email "your-email@example.com"
                         git config user.name "hibayagoubi1"
-                        set BUILD_NUMBER=${BUILD_NUMBER}
-                        powershell -Command "(gc spring-boot-app-manifests/deployment-gateway.yml) -replace 'replaceImageTag', '${BUILD_NUMBER}' | sc spring-boot-app-manifests/deployment-gateway.yml"
-                        git add spring-boot-app-manifests/deployment-gaeway.yml
-                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        
+                        # Remplacer dynamiquement le tag d'image dans le fichier YAML
+                        powershell -Command "(gc spring-boot-app-manifests/deployment-gateway.yml) -replace 'replaceImageTag', '%BUILD_NUMBER%' | sc spring-boot-app-manifests/deployment-gateway.yml"
+                        
+                        # Ajouter et pousser les modifications
+                        git add spring-boot-app-manifests/deployment-gateway.yml
+                        git commit -m "Update deployment image to version %BUILD_NUMBER%"
+                        git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:main
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check logs for details.'
         }
     }
 }
