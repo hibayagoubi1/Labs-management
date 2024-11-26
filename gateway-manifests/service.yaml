@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  labels:
+    app: gateway-service
+spec:
+  selector:
+    app: gateway-service
+  ports:
+    - protocol: TCP
+      port: 80                # Port du service interne
+      targetPort: 8080         # Port de ton application dans le conteneur
+      nodePort: 30000          # Le port sur lequel Minikube exposera ton service
+  type: NodePort              # Type NodePort pour exposer le service à l'extérieur du cluster
