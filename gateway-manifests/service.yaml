@@ -9,7 +9,7 @@ spec:
     app: gateway-service
   ports:
     - protocol: TCP
-      port: 80                # Port du service interne
-      targetPort: 8080         # Port de ton application dans le conteneur
-      nodePort: 30000          # Le port sur lequel Minikube exposera ton service
-  type: NodePort              # Type NodePort pour exposer le service à l'extérieur du cluster
+      port: 80               
+      targetPort: 8080        
+      nodePort: 30000         
+  type: NodePort              
