@@ -82,13 +82,19 @@ pipeline {
 
         stage('Sync Application') {
             steps {
-                bat "argocd app sync %APP_NAME%"
+                bat """
+                  set PATH=C:\\Program Files\\Jenkins;%PATH%                   
+                  argocd app sync %APP_NAME%
+               """
             }
         }
 
         stage('Check Application Status') {
             steps {
-                bat "argocd app wait %APP_NAME% --health --timeout 300"
+                bat """
+                   set PATH=C:\\Program Files\\Jenkins;%PATH% 
+                   argocd app wait %APP_NAME% --health --timeout 300
+                """
             }
         }
     }
