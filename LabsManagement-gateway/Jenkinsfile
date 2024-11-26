@@ -9,6 +9,10 @@ pipeline {
     environment {
         GIT_REPO_NAME = "Labs-management"
         GIT_USER_NAME = "hibayagoubi1"
+        ARGOCD_SERVER = 'localhost:8082'  
+        ARGOCD_USERNAME = 'admin'         
+        ARGOCD_PASSWORD = 'nr39-kXYM8LPbi6P'  
+        APP_NAME = 'service-gateway'              // Le nom de votre application dans ArgoCD
     }
 
     stages {
@@ -48,7 +52,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     bat '''
-                        git config user.email "your-email@example.com"
+                        git config user.email "hibayaagoubi4@gmail.com"
                         git config user.name "hibayagoubi1"
                         
                         # Remplacer dynamiquement le tag d'image dans le fichier YAML
@@ -60,6 +64,31 @@ pipeline {
                         git push https://%GITHUB_TOKEN%@github.com/%GIT_USER_NAME%/%GIT_REPO_NAME% HEAD:main
                     '''
                 }
+            }
+        }
+
+        // Ajout des étapes ArgoCD
+        stage('Login to ArgoCD') {
+            steps {
+                bat '''
+                argocd login %ARGOCD_SERVER% --username %ARGOCD_USERNAME% --password %ARGOCD_PASSWORD% --insecure
+                '''
+            }
+        }
+
+        stage('Sync Application') {
+            steps {
+                bat '''
+                argocd app sync %APP_NAME%
+                '''
+            }
+        }
+
+        stage('Check Application Status') {
+            steps {
+                bat '''
+                argocd app wait %APP_NAME% --health --timeout 300
+                '''
             }
         }
     }
