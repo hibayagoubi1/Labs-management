@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: gateway-service
-        image: hibayaagoubi/gateway-service:13
+        image: hibayaagoubi/gateway-service:20
         ports:
         - containerPort: 8080
