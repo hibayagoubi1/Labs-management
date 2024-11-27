@@ -12,7 +12,7 @@ pipeline {
         ARGOCD_SERVER = 'localhost:8082'  
         ARGOCD_USERNAME = 'admin'         
         ARGOCD_PASSWORD = 'nr39-kXYM8LPbi6P'  
-        APP_NAME = 'service-gateway' // Le nom de votre application dans ArgoCD
+        APP_NAME = 'identity-service' // Le nom de votre application dans ArgoCD
         DOCKER_IMAGE_NAME = "hibayaagoubi/gateway-service"
     }
 
@@ -25,14 +25,14 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'cd LabsManagement-gateway && mvn clean package'
+                bat 'cd identity-service && mvn clean package'
             }
         }
 
         stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_TOKEN')]) {
-                    bat "cd LabsManagement-gateway && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN%"
+                    bat "cd identity-service && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
                     def fullDockerImage = "${DOCKER_IMAGE_NAME}:${dockerImageTag}"
                     
                     // Build and push the Docker image
-                    bat "cd LabsManagement-gateway && docker build -t ${fullDockerImage} ."
+                    bat "cd identity-service && docker build -t ${fullDockerImage} ."
                     docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
                         docker.image(fullDockerImage).push()
                     }
@@ -60,10 +60,10 @@ pipeline {
                         git config user.name "${GIT_USER_NAME}"
 
                         # Replace the Docker image tag in the deployment file
-                        powershell -Command "(gc gateway-manifests/deployment-gateway.yml) -replace '(?<=image: ${DOCKER_IMAGE_NAME}:).*', '${BUILD_NUMBER}' | sc gateway-manifests/deployment-gateway.yml"
+                        powershell -Command "(gc identity-service-manifests/deployment-identity-service.yml) -replace '(?<=image: ${DOCKER_IMAGE_NAME}:).*', '${BUILD_NUMBER}' | sc identity-service-manifests/deployment-identity-service.yml"
 
                         # Commit and push the changes
-                        git add gateway-manifests/deployment-gateway.yml
+                        git add identity-service-manifests/deployment-identity-service.yml
                         git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     """
