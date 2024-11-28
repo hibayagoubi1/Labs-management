@@ -13,7 +13,7 @@ pipeline {
         ARGOCD_USERNAME = 'admin'         
         ARGOCD_PASSWORD = 'nr39-kXYM8LPbi6P'  
         APP_NAME = 'identity-service' // Le nom de votre application dans ArgoCD
-        DOCKER_IMAGE_NAME = "hibayaagoubi/gateway-service"
+        DOCKER_IMAGE_NAME = "hibayaagoubi/identity-service"
     }
 
     stages {
