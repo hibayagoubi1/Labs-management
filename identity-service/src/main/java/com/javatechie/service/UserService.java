@@ -5,7 +5,6 @@ import com.javatechie.dto.UserDto;
 import com.javatechie.entity.User;
 import com.javatechie.mappers.UserMapper;
 import com.javatechie.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +24,7 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private ModelMapper modelMapper;
+
     @Autowired
     private UserMapper userMapper;
 
