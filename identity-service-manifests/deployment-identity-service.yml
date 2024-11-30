@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: identity-service
-        image: hibayaagoubi/identity-service:13
+        image: hibayaagoubi/identity-service:12
         ports:
         - containerPort: 8080
