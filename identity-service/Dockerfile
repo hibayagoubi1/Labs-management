@@ -1,4 +1,6 @@
 FROM openjdk:17-oracle
 VOLUME /tmp
+ARG SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
 COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

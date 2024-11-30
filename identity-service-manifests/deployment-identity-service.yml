@@ -19,3 +19,6 @@ spec:
         image: hibayaagoubi/identity-service:12
         ports:
         - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"

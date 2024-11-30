@@ -23,11 +23,12 @@ pipeline {
             }
         }
 
-        stage('Build and Test') {
-            steps {
-                bat 'cd identity-service && mvn clean package'
-            }
-        }
+       stage('Build and Test') {
+    steps {
+        bat 'cd identity-service && mvn clean test -Dspring.profiles.active=test'
+    }
+}
+
 
         stage('Static Code Analysis') {
             steps {
@@ -37,20 +38,24 @@ pipeline {
             }
         }
 
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    def dockerImageTag = "${BUILD_NUMBER}"
-                    def fullDockerImage = "${DOCKER_IMAGE_NAME}:${dockerImageTag}"
-                    
-                    // Build and push the Docker image
-                    bat "cd identity-service && docker build -t ${fullDockerImage} ."
-                    docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                        docker.image(fullDockerImage).push()
-                    }
-                }
+      stage('Build and Push Docker Image') {
+    steps {
+        script {
+            def dockerImageTag = "${BUILD_NUMBER}"
+            def fullDockerImage = "${DOCKER_IMAGE_NAME}:${dockerImageTag}"
+            
+            // Build and push the Docker image with SPRING_PROFILES_ACTIVE set to prod
+            bat """
+                cd identity-service
+                docker build --build-arg SPRING_PROFILES_ACTIVE=prod -t ${fullDockerImage} .
+            """
+            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                docker.image(fullDockerImage).push()
             }
         }
+    }
+}
+
 
         stage('Update Deployment File') {
             steps {
