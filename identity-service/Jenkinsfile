@@ -25,7 +25,7 @@ pipeline {
 
        stage('Build and Test') {
     steps {
-        bat 'cd identity-service && mvn clean test -Dspring.profiles.active=test'
+        bat 'cd identity-service && mvn clean package -Dspring.profiles.active=test'
     }
 }
 
