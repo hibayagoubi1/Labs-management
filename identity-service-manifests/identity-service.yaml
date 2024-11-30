@@ -8,5 +8,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8083  # Le port sur lequel le service est exposé
-      targetPort: 8080  # Le port sur lequel le conteneur écoute
+      targetPort: 9898  # Le port sur lequel le conteneur écoute
   type: ClusterIP  # Le service est accessible à l'intérieur du cluster
