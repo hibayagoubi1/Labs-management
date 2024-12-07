@@ -10,7 +10,7 @@ spring:
             - AuthenticationFilter
             
         - id: identity-service
-          uri: http://identity-service:8083
+          uri: http://10.96.248.5:8083
           predicates:
             - Path=/auth/**
           metadata:
