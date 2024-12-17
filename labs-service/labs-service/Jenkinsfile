@@ -25,7 +25,7 @@ pipeline {
 
        stage('Build and Test') {
     steps {
-        bat 'cd identity-service && mvn clean package -Dspring.profiles.active=test'
+        bat 'cd labs-service/labs-service && mvn clean package -Dspring.profiles.active=test'
     }
 }
 
@@ -33,7 +33,7 @@ pipeline {
         stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_TOKEN')]) {
-                    bat "cd identity-service && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN%"
+                    bat "cd labs-service/labs-service && mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
@@ -65,10 +65,10 @@ pipeline {
                         git config user.name "${GIT_USER_NAME}"
 
                         # Replace the Docker image tag in the deployment file
-                        powershell -Command "(gc identity-service-manifests/deployment-identity-service.yml) -replace '(?<=image: ${DOCKER_IMAGE_NAME}:).*', '${BUILD_NUMBER}' | sc identity-service-manifests/deployment-identity-service.yml"
+                        powershell -Command "(gc labs-service-manifests/labs-deployment.yml) -replace '(?<=image: ${DOCKER_IMAGE_NAME}:).*', '${BUILD_NUMBER}' | sc labs-service-manifests/labs-deployment.yml"
 
                         # Commit and push the changes
-                        git add identity-service-manifests/deployment-identity-service.yml
+                        git add labs-service-manifests/labs-deployment.yml
                         git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     """
