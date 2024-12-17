@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-service
+  labels:
+    app: lab-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lab-service
+  template:
+    metadata:
+      labels:
+        app: lab-service
+    spec:
+      containers:
+      - name: lab-service
+        image: hibayaagoubi/lab-service:1
+        ports:
+        - containerPort: 8086
