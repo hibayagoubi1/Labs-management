@@ -3,16 +3,21 @@ package com.javatechie.controller;
 import com.javatechie.config.CustomUserDetailsService;
 import com.javatechie.dto.AuthRequest;
 import com.javatechie.dto.UserDto;
+import com.javatechie.dto.UserUpdateRequest;
 import com.javatechie.service.JwtUtil;
 import com.javatechie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,12 +36,17 @@ public class AuthController {
 
     // Endpoint pour enregistrer un nouvel utilisateur
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> registerUser(
+                                          @ModelAttribute UserUpdateRequest userRequest,
+                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
-            userService.saveUser(userDto);  // Enregistrer le nouvel utilisateur
+            byte[] signature = file != null ? file.getBytes() : null;
+            userService.saveUser(userRequest,signature);  // Enregistrer le nouvel utilisateur
             return ResponseEntity.ok("User registered successfully!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

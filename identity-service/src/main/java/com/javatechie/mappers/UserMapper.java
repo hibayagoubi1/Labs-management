@@ -1,6 +1,7 @@
 package com.javatechie.mappers;
 
 import com.javatechie.dto.UserDto;
+import com.javatechie.dto.UserUpdateRequest;
 import com.javatechie.entity.Role;
 import com.javatechie.entity.User;
 import com.javatechie.repository.RoleRepository;
@@ -14,14 +15,14 @@ public class UserMapper {
     @Autowired
     private RoleRepository roleRepository;
 
-    public User toEntity(UserDto userDto) {
+    public User toEntity(UserUpdateRequest userDto) {
         User user = new User();
+        user.setId(userDto.getId());
         user.setFullName(userDto.getFullName());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setProfession(userDto.getProfession());
-
-        // Convertir chaque rôle (String) en un objet Role
+        // Convertir chaque rôle (String) en un objet Ro
         user.setRoles(userDto.getRoles().stream()
                 .map(roleName -> {
                     Role role = new Role();

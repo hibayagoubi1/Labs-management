@@ -28,6 +28,7 @@ public class User {
     private Long fkIdLaboratoire;
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] signature;
 
     @ManyToMany(fetch = FetchType.EAGER)
