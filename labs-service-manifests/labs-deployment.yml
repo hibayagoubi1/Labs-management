@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: lab-service
-        image: hibayaagoubi/lab-service:1
+        image: hibayaagoubi/lab-service:2
         ports:
         - containerPort: 8086
