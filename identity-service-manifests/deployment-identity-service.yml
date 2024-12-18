@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: identity-service
-        image: hibayaagoubi/identity-service:15
+        image: hibayaagoubi/identity-service:19
         ports:
         - containerPort: 9898
         env:
