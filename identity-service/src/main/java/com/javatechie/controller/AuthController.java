@@ -2,14 +2,11 @@ package com.javatechie.controller;
 
 import com.javatechie.config.CustomUserDetailsService;
 import com.javatechie.dto.AuthRequest;
-import com.javatechie.dto.UserDto;
 import com.javatechie.dto.UserUpdateRequest;
 import com.javatechie.service.JwtUtil;
 import com.javatechie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -67,5 +64,7 @@ public class AuthController {
     public ResponseEntity<String> validateToken(@RequestParam("token") String token) {
         return userService.validateToken(token);
     }
+
+
 
 }

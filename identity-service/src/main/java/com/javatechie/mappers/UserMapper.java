@@ -1,6 +1,5 @@
 package com.javatechie.mappers;
 
-import com.javatechie.dto.UserDto;
 import com.javatechie.dto.UserUpdateRequest;
 import com.javatechie.entity.Role;
 import com.javatechie.entity.User;
@@ -22,7 +21,7 @@ public class UserMapper {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setProfession(userDto.getProfession());
-        // Convertir chaque rôle (String) en un objet Ro
+        user.setFkIdLaboratoire(userDto.getFkIdLaboratoire());
         user.setRoles(userDto.getRoles().stream()
                 .map(roleName -> {
                     Role role = new Role();

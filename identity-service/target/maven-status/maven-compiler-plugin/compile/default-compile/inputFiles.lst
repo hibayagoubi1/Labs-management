@@ -3,7 +3,6 @@ C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-servic
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\controller\AuthController.java
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\controller\UserController.java
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\dto\AuthRequest.java
-C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\dto\UserDto.java
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\dto\UserUpdateRequest.java
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\entity\Laboratory.java
 C:\Users\user\Desktop\LABS-MANAGEMENT\GestionLaboratoire-backend\identity-service\src\main\java\com\javatechie\entity\Role.java

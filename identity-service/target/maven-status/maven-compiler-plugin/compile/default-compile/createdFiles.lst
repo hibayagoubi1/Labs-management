@@ -11,7 +11,7 @@ com\javatechie\service\JwtUtil.class
 com\javatechie\service\UserService.class
 com\javatechie\dto\UserUpdateRequest.class
 com\javatechie\entity\User.class
-com\javatechie\dto\UserDto.class
+com\javatechie\config\AuthConfig$1.class
 com\javatechie\mappers\UserMapper.class
 com\javatechie\repository\RoleRepository.class
 com\javatechie\feignClient\LaboratoryClient.class
