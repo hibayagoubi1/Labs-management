@@ -1,5 +1,6 @@
 package com.javatechie.dto;
 
+import com.javatechie.entity.Laboratory;
 import lombok.Data;
 
 import java.util.Set;
@@ -12,5 +13,7 @@ public class UserUpdateRequest {
     private String password;
     private String profession;
     private Long fkIdLaboratoire;
+    private Laboratory laboratory;
+    private byte[] signature;
     private Set<String> roles; // Les noms des rôles
 }

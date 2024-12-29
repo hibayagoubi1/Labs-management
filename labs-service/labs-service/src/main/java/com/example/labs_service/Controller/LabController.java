@@ -1,6 +1,8 @@
 package com.example.labs_service.Controller;
 
+import com.example.labs_service.dto.ContactCreationDTO;
 import com.example.labs_service.dto.LaboratoryRequest;
+import com.example.labs_service.model.Contact;
 import com.example.labs_service.model.Laboratory;
 import com.example.labs_service.repository.LabRepository;
 import com.example.labs_service.services.LaboratoryService;
@@ -17,16 +19,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/labs")
 public class LabController {
-    @Autowired
-    private LabRepository labRepository;
-
 
     @Autowired
     private LaboratoryService labService;
 
     @GetMapping
     public List<Laboratory> GetLabs(){
-        return labRepository.findAll();
+        return labService.getLabs();
     }
     @GetMapping("/{id}")
     public ResponseEntity<Laboratory> getLaboratoryById(@PathVariable Long id) {
@@ -50,5 +49,10 @@ public class LabController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @PostMapping
+    public ResponseEntity<Contact> createContact(@RequestBody ContactCreationDTO dto) {
+        Contact createdContact = labService.createContactWithAddress(dto);
+        return ResponseEntity.ok(createdContact);
     }
 }

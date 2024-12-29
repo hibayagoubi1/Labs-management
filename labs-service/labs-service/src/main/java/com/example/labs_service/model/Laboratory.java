@@ -1,22 +1,22 @@
 package com.example.labs_service.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Laboratory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nom;
-
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     @Getter
@@ -31,4 +31,7 @@ public class Laboratory {
 
     @Column(name = "date_activation")
     private LocalDate dateActivation;
+
+    @OneToMany(mappedBy = "laboratory", fetch = FetchType.EAGER)
+    private List<Contact> contacts;
 }

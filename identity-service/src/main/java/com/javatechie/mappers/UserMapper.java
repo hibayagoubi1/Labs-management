@@ -32,4 +32,18 @@ public class UserMapper {
 
         return user;
     }
+    public UserUpdateRequest toEntity(User user) {
+        UserUpdateRequest userDTO = new UserUpdateRequest();
+        userDTO.setId(user.getId());
+        userDTO.setFullName(user.getFullName());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setProfession(user.getProfession());
+        userDTO.setFkIdLaboratoire(user.getFkIdLaboratoire());
+        userDTO.setSignature(user.getSignature());
+
+
+        return userDTO;
+    }
+
 }

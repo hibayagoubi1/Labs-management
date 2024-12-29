@@ -39,6 +39,15 @@ public class UserController {
         }
     }
     @GetMapping
-    public List<User>getUsers(){return userService.getUsers();}
+    public List<UserUpdateRequest>getUsers(){return userService.getUsers();}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.ok("Utilisateur supprimé avec succès !");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
 }
