@@ -13,4 +13,5 @@ public class LaboratoryRequest {
     private Boolean active;
     private LocalDate dateActivation;
 
+
 }

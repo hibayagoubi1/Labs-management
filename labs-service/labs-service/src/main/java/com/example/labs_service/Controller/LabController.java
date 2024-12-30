@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,19 +39,25 @@ public class LabController {
     }
     // Endpoint pour enregistrer un nouvel utilisateur
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(
+    public ResponseEntity<Map<String, Object>> registerUser(
             @ModelAttribute LaboratoryRequest labRequest,
             @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
             byte[] logo = file != null ? file.getBytes() : null;
-            labService.saveLab(labRequest,logo);  // Enregistrer le nouvel utilisateur
-            return ResponseEntity.ok("laboratory registered successfully!");
+            Laboratory lab = labService.saveLab(labRequest, logo);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Laboratory registered successfully!");
+            response.put("laboratoryId", lab.getId());
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
+
     @PostMapping
     public ResponseEntity<Contact> createContact(@RequestBody ContactCreationDTO dto) {
         Contact createdContact = labService.createContactWithAddress(dto);

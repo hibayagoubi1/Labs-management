@@ -19,20 +19,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LaboratoryService {
     private final LabRepository laboratoryRepository;
-    private LabMapper labMapper;
+    private final LabMapper labMapper;
     private final ContactRepository contactRepository;
     private final AdresseRepository adresseRepository;
 
     public Laboratory getLaboratoryById(Long id) {
-        return laboratoryRepository.findById(id).orElse(null);
+        return laboratoryRepository.findByIdWithContactsAndAddresses(id);
     }
 
-    public void saveLab(LaboratoryRequest lab, byte[] logo) {
+    public Laboratory saveLab(LaboratoryRequest lab, byte[] logo) {
         Laboratory laboratory = labMapper.toEntity(lab);
         if (logo != null) {
             laboratory.setLogo(logo);
         }
-        laboratoryRepository.save(laboratory);
+        return laboratoryRepository.save(laboratory);
     }
     @Transactional
     public Contact createContactWithAddress(ContactCreationDTO dto) {

@@ -13,6 +13,7 @@ public class LabMapper {
         lab.setNrc(request.getNrc());
         lab.setActive(request.getActive());
         lab.setDateActivation(request.getDateActivation());
+
         return lab;
     }
 }

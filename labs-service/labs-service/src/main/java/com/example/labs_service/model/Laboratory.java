@@ -26,7 +26,7 @@ public class Laboratory {
     @Column(nullable = false, unique = true, length = 50)
     private String nrc;
 
-    @Column(nullable = false)
+
     private Boolean active;
 
     @Column(name = "date_activation")
